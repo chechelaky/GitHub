@@ -15,6 +15,29 @@
 ;	@Elias (http://forum.autoitbrasil.com/index.php?/user/1384-elias/)
 ;	http://forum.autoitbrasil.com/index.php?/topic/1121-runstdio-executa-um-programa-dos-e-retorna-a-saida-da-console/#entry13419
 
+#cs
+
+Minha percepção de como funciona (se estou errado, por favor, compartilhe seu entendimento comigo).
+No loop percepa as variáveis que leem as saídas do console, StdoutRead/$Normal e StderrRead/$error
+
+	$normal = StdoutRead($PID, False, False)
+	$error = StderrRead($PID, False, False)
+
+Se o comando foi executado com sucesso, a saída se dará pelo $normal.
+Se houve erro na execução, a saída se dará por $error.
+Logicamente, isso ainda carece de testes, não tenho certeza de que toda a saída de console funciona desta forma.
+
+No aplicativo command_line.exe, quando você digita um número de 1 até 9, a saída é sempre aleatória, isto é, pode vir por:
+$normal (escrita por 'ConsoleWrite') ou
+$error (escrita por 'ConsoleWriteError')
+
+Ainda tenho dúvidas se o plink.exe ou sqlplus.exe funcionam da mesma forma.
+
+Se as saídas forem por $normal e $error, é muito fácil tratar erros, se há saida em $error... há erro!
+Agora se o alguma mensagem de erro vier por $normal, terá que ser analisado a string de retorno, procurando alguma string que
+identifique este erro.
+#ce
+
 #include-once
 #include <Array.au3>
 #include <WindowsConstants.au3>
@@ -63,9 +86,9 @@ While Sleep(10)
 			Output("$normal: " & $normal)
 			$normal = ""
 		EndIf
-		$error = StderrRead($PID, False, True)
+		$error = StderrRead($PID, False, False)
 		If $error Then
-			$error = BinaryToString($error)
+;~ 			$error = BinaryToString($error)
 			Output(" $error: " & $error)
 			$error = ""
 		EndIf
