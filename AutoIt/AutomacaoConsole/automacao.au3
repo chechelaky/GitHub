@@ -4,6 +4,7 @@
 ; Exemplo........:
 ; Author ........: Luigi (Luismar Chechelaky)
 ; Link ..........: https://github.com/chechelaky/GitHub/blob/master/AutoIt/AutomacaoConsole/automacao.au3
+; Forum..........: http://forum.autoitbrasil.com/index.php?/topic/2058-automacao-de-ms-dos/
 ; AutoIt version.: 3.3.14.2
 ; ===============================================================================================================================
 
