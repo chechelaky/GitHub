@@ -4,6 +4,7 @@
 ; Exemplo........:
 ; Author ........: Luigi (Luismar Chechelaky)
 ; Link ..........: https://github.com/chechelaky/GitHub/blob/master/AutoIt/AutomacaoConsole/command_line.au3
+; Forum..........: http://forum.autoitbrasil.com/index.php?/topic/2058-automacao-de-ms-dos/
 ; AutoIt version.: 3.3.14.2
 ; ===============================================================================================================================
 
@@ -57,7 +58,7 @@ Func Executa($input)
 		Case 4
 			Retorno("quatro", 2)
 		Case 5
-			Retorno("cincod", 2)
+			Retorno("cinco", 2)
 		Case 6
 			Retorno("seis", 2)
 		Case 7
