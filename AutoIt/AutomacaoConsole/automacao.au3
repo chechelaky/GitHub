@@ -10,6 +10,7 @@
 ;~ #AutoIt3Wrapper_AU3Check_Parameters= -q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w- 7
 ;~ #Tidy_Parameters=/sf
 
+; Autor: Luigi
 ; Agradecimentos:
 ;	@Elias (http://forum.autoitbrasil.com/index.php?/user/1384-elias/)
 ;	http://forum.autoitbrasil.com/index.php?/topic/1121-runstdio-executa-um-programa-dos-e-retorna-a-saida-da-console/#entry13419
@@ -27,6 +28,7 @@ Opt("GUIOnEventMode", 1)
 Opt("GUIEventOptions", 1)
 Opt("MustDeclareVars", 1)
 
+Global $APP_NAME = ""
 Global $PID_RUN = False
 Global $aGuiSize[2] = [800, 600]
 Global $sGuiTitle = "PID[ 0 ]"
@@ -48,7 +50,7 @@ Global $PID = COMMAND_LINE()
 ;~ Run(@ComSpec & " /c cmd.exe", @ScriptDir, @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD + $STDIN_CHILD)
 
 WinSetTitle($hGui, "", "PID[" & $PID & "]")
-Global $aa = "", $bb = ""
+Global $normal = "", $error = ""
 
 GUIRegisterMsg($WM_ACTIVATE, "WM_ACTIVATE")
 GUICtrlSetState($hInput, $GUI_FOCUS)
@@ -56,16 +58,16 @@ HotKeySet("{ENTER}", "Enter")
 
 While Sleep(10)
 	If ProcessExists($PID) And $PID_RUN Then
-		$aa = StdoutRead($PID, False, False)
-		If $aa Then
-			Output("$aa: " & $aa)
-			$aa = ""
+		$normal = StdoutRead($PID, False, False)
+		If $normal Then
+			Output("$normal: " & $normal)
+			$normal = ""
 		EndIf
-		$bb = StderrRead($PID, False, True)
-		If $bb Then
-			$bb = BinaryToString($bb)
-			Output("$bb: " & $bb)
-			$bb = ""
+		$error = StderrRead($PID, False, True)
+		If $error Then
+			$error = BinaryToString($error)
+			Output(" $error: " & $error)
+			$error = ""
 		EndIf
 	ElseIf Not ProcessExists($PID) And $PID_RUN Then
 		$PID_RUN = False
@@ -77,14 +79,16 @@ While Sleep(10)
 WEnd
 
 Func COMMAND_LINE()
-	$PID = Run(@ComSpec & " /c command_line.exe", @ScriptDir, @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD + $STDIN_CHILD)
+	$APP_NAME = "command_line.exe"
+	$PID = Run(@ComSpec & " /c " & $APP_NAME, @ScriptDir, @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD + $STDIN_CHILD)
 	If @error Then Return SetError(1, 0, 0)
 	$PID_RUN = True
 	Return $PID
 EndFunc   ;==>COMMAND_LINE
 
 Func DOS()
-	Local $PID = Run(@ComSpec & " /c cmd.exe", @ScriptDir, @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD + $STDIN_CHILD)
+	$APP_NAME = "cmd.exe"
+	$PID = Run(@ComSpec & " /c " & $APP_NAME, @ScriptDir, @SW_HIDE, $STDERR_CHILD + $STDOUT_CHILD + $STDIN_CHILD)
 	If @error Then Return SetError(1, 0, 0)
 	$PID_RUN = True
 	Return $PID
@@ -130,7 +134,21 @@ Func Output($input = "")
 	_GUICtrlEdit_Scroll($hOutput, $SB_SCROLLCARET)
 EndFunc   ;==>Output
 
+Func PID_Close()
+	If Not $PID Then Return
+	Local $aProccesList = ProcessList()
+	Local $iSearch = _ArraySearch($aProccesList, $APP_NAME, 1, Default, 0, 0, 0, 0)
+	If @error Then
+		ConsoleWrite("Error to close!" & @LF)
+	Else
+		ProcessClose($aProccesList[$iSearch][1])
+		ProcessClose($PID)
+		$APP_NAME = ""
+	EndIf
+EndFunc   ;==>PID_Close
+
 Func OnExit()
+	PID_Close()
 	GUISetState($hGui, @SW_HIDE)
 	GUIDelete($hGui)
 EndFunc   ;==>OnExit
@@ -138,7 +156,6 @@ EndFunc   ;==>OnExit
 Func Quit()
 	Exit
 EndFunc   ;==>Quit
-
 
 Func Trim(ByRef $str)
 	While StringLeft($str, 1) = @CRLF Or StringLeft($str, 1) = @LF Or StringLeft($str, 1) = @CR
