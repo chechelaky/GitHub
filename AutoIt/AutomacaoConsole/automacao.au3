@@ -3,15 +3,13 @@
 ; Description ...: terminal para automacao de script de linha de comando
 ; Exemplo........:
 ; Author ........: Luigi (Luismar Chechelaky)
-; Link ..........: https://github.com/chechelaky/WMI/CIM_Display.au3
-; Source.........: https://msdn.microsoft.com/en-us/library/aa387258(v=vs.85).aspx
+; Link ..........: https://github.com/chechelaky/GitHub/blob/master/AutoIt/AutomacaoConsole/automacao.au3
 ; AutoIt version.: 3.3.14.2
 ; ===============================================================================================================================
 
 ;~ #AutoIt3Wrapper_AU3Check_Parameters= -q -d -w 1 -w 2 -w 3 -w- 4 -w 5 -w 6 -w- 7
 ;~ #Tidy_Parameters=/sf
 
-; Autor: Luigi
 ; Agradecimentos:
 ;	@Elias (http://forum.autoitbrasil.com/index.php?/user/1384-elias/)
 ;	http://forum.autoitbrasil.com/index.php?/topic/1121-runstdio-executa-um-programa-dos-e-retorna-a-saida-da-console/#entry13419
