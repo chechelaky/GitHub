@@ -18,7 +18,7 @@
 #cs
 
 Minha percepção de como funciona (se estou errado, por favor, compartilhe seu entendimento comigo).
-No loop percepa as variáveis que leem as saídas do console, StdoutRead/$Normal e StderrRead/$error
+No loop perceba as variáveis que leem as saídas do console, StdoutRead/$Normal e StderrRead/$error
 
 	$normal = StdoutRead($PID, False, False)
 	$error = StderrRead($PID, False, False)
