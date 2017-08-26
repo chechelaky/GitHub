@@ -4,7 +4,6 @@
 ; Exemplo........:
 ; Author ........: Luigi (Luismar Chechelaky)
 ; Link ..........: https://github.com/chechelaky/GitHub/blob/master/AutoIt/AutomacaoConsole/command_line.au3
-; Source.........: https://msdn.microsoft.com/en-us/library/aa387258(v=vs.85).aspx
 ; AutoIt version.: 3.3.14.2
 ; ===============================================================================================================================
 
